@@ -38,5 +38,15 @@ namespace ScreenSound_04.Filtros
                 Console.WriteLine($"- {musica.Nome}");
             }
         }
+
+        public static void FiltrarDoSustenido(List<Musica> musicas)
+        {
+            var musicasDoSustenido = musicas.Where(musica => musica.Key == 1).ToList();
+
+            foreach (var musica in musicasDoSustenido)
+            {
+                musica.ExibirDetalhesDaMusica();
+            }
+        }
     }
 }

@@ -20,10 +20,11 @@ using (HttpClient client = new HttpClient())
         musicasPreferidas.AdicionarMusicasFavoritas(musicas[88]);
         musicasPreferidas.AdicionarMusicasFavoritas(musicas[34]);
 
-        musicasPreferidas.ExebirMusicasFavoritas();
-        musicasPreferidas.GerarArquivoJson();
+        //musicasPreferidas.ExebirMusicasFavoritas();
+        //musicasPreferidas.GerarArquivoJson();
 
 
+        LinqFilter.FiltrarDoSustenido(musicas);
 
     }
     catch (Exception e)
