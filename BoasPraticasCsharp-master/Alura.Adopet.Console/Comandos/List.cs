@@ -10,15 +10,21 @@ using Alura.Adopet.Console.Modelos;
 namespace Alura.Adopet.Console.Comandos
 {
     [DocComando(instrucao: "list", documentacao: "adopet list comando que exibe no terminal o conteúdo cadastrado na base de dados da AdoPet.")]
-    internal class List
+    internal class List: IComando
     {
         HttpClient client;
+
+
+        public async Task ExecutarAsync(string[] args)
+        {
+            await this.ListarPets();
+        }
 
         public List()
         {
             client = ConfiguraHttpClient("http://localhost:5057");
         }
-        public async Task ListarPets()
+        private async Task ListarPets()
         {
             var pets = await ListPetsAsync();
             foreach (var pet in pets)

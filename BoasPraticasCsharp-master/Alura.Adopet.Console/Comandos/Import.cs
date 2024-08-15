@@ -11,16 +11,21 @@ using Alura.Adopet.Console.Util;
 namespace Alura.Adopet.Console.Comandos
 {
     [DocComando(instrucao: "import", documentacao: "adopet import <arquivo> comando que realiza a importação do arquivo de pets.")]
-    internal class Import
+    internal class Import : IComando
     {
         HttpClient client;
 
+
+        public async Task ExecutarAsync(string[] args)
+        {
+            await this.ImportacaoArquivoPetAsync(caminhoDoArquivoDeImportacao: args[1]);
+        }
         public Import()
         {
             client = ConfiguraHttpClient("http://localhost:5057");
         }
 
-        public async Task ImportacaoArquivoPetAsync(string caminhoDoArquivoDeImportacao)
+        private async Task ImportacaoArquivoPetAsync(string caminhoDoArquivoDeImportacao)
         {
 
             LeitorDeArquivo leitor = new LeitorDeArquivo();
@@ -28,7 +33,6 @@ namespace Alura.Adopet.Console.Comandos
 
             foreach (var pet in listaDePet)
             {
-                System.Console.WriteLine("----- Serão importados os dados abaixo -----");
                 try
                 {
                     var resposta = await CreatePetAsync(pet);

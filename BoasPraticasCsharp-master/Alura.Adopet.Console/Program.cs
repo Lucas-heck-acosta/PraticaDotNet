@@ -1,39 +1,28 @@
 ﻿using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using Alura.Adopet.Console.Modelos;
+using Alura.Adopet.Console.Comandos;
 
 // cria instância de HttpClient para consumir API Adopet
 HttpClient client = ConfiguraHttpClient("http://localhost:5057");
 Console.ForegroundColor = ConsoleColor.Green;
+
+ComandosDoSistema comandosDoSistema = new ComandosDoSistema();
+
 try
 {
     string comando = args[0].Trim();
-    switch (comando)
+    IComando? cmd = comandosDoSistema[comando];
+  
+    if(cmd is not null)
     {
-        case "import":
-            var import = new Import();
-            await import.ImportacaoArquivoPetAsync(caminhoDoArquivoDeImportacao: args[1]);
-            break;
-
-        case "help":
-            var help = new Help();
-            help.MostrarListaDeAjuda(quantidadeDeArgumentos: args.Length, argumentos: args);
-            break;
-
-        case "show":
-            var show = new Show();
-            show.ExibirDadosImportados(caminhoDoArquivoASerExibido: args[1]);            
-            break;
-
-        case "list":
-            var list = new List();
-            await list.ListarPets();
-            break;
-
-        default:
-            Console.WriteLine("Comando inválido!");
-            break;
+        await cmd.ExecutarAsync(args);
     }
+    else
+    {
+        Console.WriteLine("Comando inválido!");
+    }
+
 }
 catch (Exception ex)
 {
